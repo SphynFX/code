@@ -8,15 +8,19 @@
  */
 class Union extends Node {
   /*
-   * Input: list of NodeOutput objects.
+   * Input: list of NodeOutput objects, as different arguments or as an array.
    */
   constructor() {
     super();
-    this.inputs = arguments;
-    this.output = new NodeOutput(this);
+    if(Array.isArray(arguments[0])) {
+      this._inputs = arguments[0];
+    } else {
+      this._inputs = arguments;
+    }
+    this._output = new NodeOutput(this);
 
-    for(var i=0; i<arguments.length; i++) {
-      arguments[i].connectToInput(this);
+    for(var i=0; i<this._inputs.length; i++) {
+      this._inputs[i].connectToInput(this);
     }
   }
 
@@ -24,15 +28,15 @@ class Union extends Node {
   // Inhereted methods ----------
   //
   createScriptCode() {
-    print("final Node " + this.refName + " = new Union<"
-            + this.tupleType.className + ">()\n");
+    return("final Node " + this.refName + " = new Union<"
+            + this.tupleType.className + ">();\n");
   }
 
   get output() {
-    return this.output;
+    return this._output;
   }
 
   get outputList() {
-    return [this.output];
+    return [this._output];
   }
 }

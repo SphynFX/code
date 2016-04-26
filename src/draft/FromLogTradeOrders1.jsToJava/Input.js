@@ -9,7 +9,7 @@ class Input extends Node {
   constructor(tupleType) {
     super();
     this.tupleType = tupleType;
-    this.output = new NodeOutput(this);
+    this._output = new NodeOutput(this);
   }
 
 
@@ -17,9 +17,8 @@ class Input extends Node {
   // Inhereted methods ----------
   //  
   createScriptCode() {
-    print("final Node " + this.refName + " = new Input<" 
-            + this.tupleType.className + ">();");
-    print("\n");
+    return("final Node " + this.refName + " = new Input<" 
+            + this.tupleType.className + ">();\n");
   }
 
 
@@ -27,13 +26,13 @@ class Input extends Node {
    * Gets output as an array.
    */
   get outputList() {
-    return [this.output];
+    return [this._output];
   }
 
   /*
    * Gets output as single value
    */
   get output() {
-    return this.output;
+    return this._output;
   }
 }

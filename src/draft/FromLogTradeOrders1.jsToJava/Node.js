@@ -3,8 +3,9 @@
  */
 class Node {
   constructor() {
-    Node.createRefName();
+    this.refName = Node.createRefName();
     this.isEndNode = false;
+    Script.registerNode(this);
   }
 
   /*
@@ -14,8 +15,9 @@ class Node {
     if(typeof Node.counter == 'undefined') {
       Node.counter = 0;
     }
-    this.refName = 'node' + Node.counter;
+    var nodeName = 'node' + Node.counter;
     Node.counter++;
+    return nodeName;
   }
 
   
@@ -30,7 +32,6 @@ class Node {
    * Is End Node getter.
    */
   getIsEnd() { return this.isEndNode; }
-  get isEnd() { return this.isEndNode; }
 
 
   /*
@@ -44,7 +45,19 @@ class Node {
   createClassCode() { }
 
   /*
-   * To be overriden, returns output (single or array depends on node type)
+   * To be overriden, creates Java code linking this node to output nodes.
+   */
+  createNetworkCode() {
+    var script = "";
+    if(this.output != null && this.output.connectedTo != null) {
+      script += (this.refName + ".linkOutput(" + this.output.connectedTo.refName
+            + ");\n");
+    }
+    return script;
+  }
+
+  /*
+   * To be overriden, returns NodeOutput (single or array depends on node type)
    */
   get output() {
     return null; 
@@ -83,6 +96,10 @@ class Node {
       this._tupleType = new Tuple(new Object());
     }
   }
+
+  get input() {
+    return this._input;
+  }
 }
 
 
@@ -96,6 +113,7 @@ class NodeOutput {
    */
   constructor(node) {
     this.node = node;
+    this.connectedTo = null;
   }
 
   get tupleType() {
@@ -108,5 +126,6 @@ class NodeOutput {
    */
   connectToInput(node) {
     this.connectedTo = node;
+    node.tupleType = this.node.tupleType;
   }
 }

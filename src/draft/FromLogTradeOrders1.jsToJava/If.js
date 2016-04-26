@@ -8,10 +8,11 @@
 class If extends Node {
   constructor(previousOutput) {
     super();
-    this.input = previousOutput;
+    this._input = previousOutput;
     this.conditions = new Object();
     this.outputs = new Object();
     previousOutput.connectToInput(this);
+    this.otherwise = new NodeOutput(this);
   }
 
 
@@ -57,14 +58,36 @@ class If extends Node {
   // Inhereted methods ----------
   //
   createScriptCode() {
-    print("final " + this.refName + " = new If<" 
-            + this.input.tupleType.className + ">();");
-    for(c in this.conditions) {
-      print(this.refName + ".setCondition(\"" + c + "\","
-            + "(input) -> " + conditions[c].expression + ");");
+    var script = "final Node " + this.refName + " = new If<" 
+            + this._input.tupleType.className + ">();\n";
+    var index = 0;
+    for(var c in this.conditions) {
+      script += (this.refName + ".setCondition(" + index + ", \"" + c + "\","
+            + "(input) -> " + this.conditions[c].expression + ");\n");
+      index++;
     }
+    return script;
   }
-  print("\n");
+
+
+  /*
+   * Slightly different than inherited from Node.js
+   */
+  createNetworkCode() {
+    var script = "";
+    var index = 0;
+    for(var c in this.conditions) {
+      script += (this.refName + ".getCondition(" + index + ").linkOutput("
+          + this.conditions[c].output.connectedTo.refName + ");\n");
+      index++;
+    }
+
+    if(this.otherwise.connectedTo != null) {
+      script += (this.refName + ".getOtherwise().linkOutput("
+          + this.otherwise.connectedTo.refName + ");\n");
+    }
+    return script;
+  }
 }
 
 
@@ -72,12 +95,29 @@ class If extends Node {
 /*
  * Endif node.
  */
-class Endif extends Node {
+class EndIf extends Node {
   constructor(ifNode) {
-     
+    super();
+    // TODO: define list of inputs to Union
+    var listOfInputs = new Array();
+    this.union = new Union(listOfInputs);
   }
 
   createScriptCode() {
     this.union.createScriptCode();
+  }
+
+  /*
+   * Gets output as an array.
+   */
+  get outputList() {
+    return this.union.outputList;
+  }
+
+  /*
+   * Gets output as single value
+   */
+  get output() {
+    return this.union.output;
   }
 }

@@ -1,0 +1,22 @@
+What I'm doing now:
+
+1.- start V8 (with d8, for example)
+
+2.- load main.js (that loads the rest of JS):
+
+    d8> load("main.js")
+
+3.- load the example: 
+
+    d8> load("../../../samples/logOrders/logTradeOrders1.js")
+
+4.- creates Java script code:
+
+    d8> x=Script.generateJavaCode()
+
+5.- shows the art to the world:
+
+    d8> print(x)
+
+6.- And then I continue creating the Java code of the different nodes, 
+    to check if all this stuff works.

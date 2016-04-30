@@ -121,3 +121,7 @@ class EndIf extends Node {
     return this.union.output;
   }
 }
+
+// Node.js stuff ....
+exports.If = If;
+exports.EndIf = EndIf;

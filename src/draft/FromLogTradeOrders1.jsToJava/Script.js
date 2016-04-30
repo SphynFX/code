@@ -20,8 +20,9 @@ Script.generateJavaClasses = function() {
  * Creates script code in Java for the registered set of nodes.
  */
 Script.generateJavaCode = function() {
-  var script = "";
+  var script = "// Java code begins\n";
   for(var i in Script.nodes) {
+    script += "\n";
     var node = Script.nodes[i];
     script += node.createScriptCode(script);
   }
@@ -33,5 +34,10 @@ Script.generateJavaCode = function() {
     script += node.createNetworkCode(script);
   }
 
+  script += "// Java code ends\n";
   return script;
 }
+
+
+// Node.js stuff....
+exports.Script = Script;

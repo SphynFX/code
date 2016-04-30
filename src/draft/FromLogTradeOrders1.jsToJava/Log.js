@@ -32,3 +32,7 @@ class Log extends Node {
     return [this._output];
   }
 }
+
+
+// Node.js stuff
+exports.Log = Log;

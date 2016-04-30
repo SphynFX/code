@@ -36,3 +36,6 @@ class Input extends Node {
     return this._output;
   }
 }
+
+// Node.js stuff ....
+exports.Input = Input;

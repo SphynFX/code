@@ -40,3 +40,6 @@ class Union extends Node {
     return [this._output];
   }
 }
+
+// Node.js stuff....
+exports.Union = Union

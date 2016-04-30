@@ -37,12 +37,12 @@ class Node {
   /*
    * To be overriden, creates script Java code.
    */
-  createScriptCode() { }
+  createScriptCode() { return ""; }
 
   /*
    * To be overriden, creates Java class definition.
    */
-  createClassCode() { }
+  createClassCode() { return ""; }
 
   /*
    * To be overriden, creates Java code linking this node to output nodes.
@@ -129,3 +129,7 @@ class NodeOutput {
     node.tupleType = this.node.tupleType;
   }
 }
+
+// Node.js stuff....
+exports.Node = Node;
+exports.NodeOutput = NodeOutput;

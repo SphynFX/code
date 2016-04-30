@@ -48,3 +48,7 @@ class Map extends Node {
     return this._output;
   }
 }
+
+
+// Node.js stuff .....
+exports.Map = Map;

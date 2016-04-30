@@ -29,3 +29,7 @@ class Tuple extends Node {
     print("}");
   }
 }
+
+
+// Node.js stuff
+exports.Tuple = Tuple;

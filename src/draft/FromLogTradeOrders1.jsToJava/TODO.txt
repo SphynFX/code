@@ -1,0 +1,5 @@
+MOVER ESTE DIRECTORIO A SRC/MAIN/RESOURCES/JAVASCRIPT
+
+VER http://blog.trifork.com/2014/10/07/setting-up-maven-to-use-gruntnodejs/
+
+

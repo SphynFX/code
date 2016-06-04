@@ -39,5 +39,32 @@ Script.generateJavaCode = function() {
 }
 
 
+/**
+ * Creates a class with the script in Java.
+ */
+Script.fs = require('fs');
+Script.writeScriptClassCode(packageName, className, scriptCode) {
+  var classFilePath = packageName.replace(/\./g, "/") + "/" + clasName 
+        + ".java";
+  var classCode = "package " + packageName.replace(/\//g,".") + ";\n";
+  classCode += "public class " + className + " {\n";
+  classCode += "    public void createNetwork(final Container container) {\n";
+  classCode += "        ContainerUtils.setActiveContainer(container);\n";
+  classCode += scriptCode;
+  classCode += "        ContainerUtils.unsetActiveContainer();\n";
+  classCode += "    }\n";
+  classCode += "}\n";
+
+  fs.writeFile(classFilePath, classCode, function(err) {
+      if(err) {
+        return console.log(err);
+      }
+
+      console.log("File saved");
+    });
+}
+
+
+
 // Node.js stuff....
 exports.Script = Script;
